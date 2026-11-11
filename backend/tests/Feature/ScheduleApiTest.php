@@ -22,7 +22,7 @@ class ScheduleApiTest extends TestCase {
   $id = $this->postJson('/api/templates',$template)->assertCreated()->json('id');
   $this->putJson('/api/templates/'.$id,array_merge($template,['name'=>'Работа']))->assertOk();
   $cells = [['employee_id'=>$employee,'date'=>'2026-11-11'],['employee_id'=>$employee,'date'=>'2026-11-12']];
-  $this->postJson('/api/shifts/apply',array_merge($template,['template_id'=>$id,'cells'=>$cells]))->assertOk();
+  $this->postJson('/api/shifts/apply',array_merge($template,['template_id'=>$id,'cells'=>$cells]))->assertOk()->assertJsonCount(2, 'shifts')->assertJsonPath('shifts.0.name', 'День');
   $this->assertDatabaseCount('shifts',2);
   $this->postJson('/api/schedule/publish',['from'=>'2026-11-01','to'=>'2026-11-30'])->assertCreated()->assertJsonPath('count',2);
   $this->deleteJson('/api/templates/'.$id)->assertNoContent();

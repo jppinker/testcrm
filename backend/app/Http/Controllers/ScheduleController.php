@@ -28,15 +28,18 @@ class ScheduleController extends Controller
     public function deleteShift(int $id) { $this->find('shifts', $id); DB::table('shifts')->where('id', $id)->delete(); return response()->noContent(); }
     public function apply(Request $request) {
         $data = $request->validate(['cells' => 'required|array|min:1|max:500', 'cells.*' => 'required|array:employee_id,date', 'cells.*.employee_id' => 'required|integer|exists:employees,id', 'cells.*.date' => 'required|date_format:Y-m-d', 'template_id' => 'nullable|integer|exists:schedule_templates,id'] + $this->rules());
-        DB::transaction(function () use ($data) {
+        $created = DB::transaction(function () use ($data) {
+            $created = [];
             foreach ($data['cells'] as $cell) {
                 if (DB::table('shifts')->where($cell)->exists()) {
                     throw \Illuminate\Validation\ValidationException::withMessages(['cells' => 'Одна из выбранных ячеек уже занята. Обновите график.']);
                 }
-                DB::table('shifts')->insert($cell + ['template_id' => $data['template_id'] ?? null, 'name' => $data['name'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'color' => $data['color']]);
+                $id = DB::table('shifts')->insertGetId($cell + ['template_id' => $data['template_id'] ?? null, 'name' => $data['name'], 'start_time' => $data['start_time'], 'end_time' => $data['end_time'], 'color' => $data['color']]);
+                $created[] = DB::table('shifts')->find($id);
             }
+            return $created;
         });
-        return response()->json(['message' => 'Смены сохранены.']);
+        return response()->json(['message' => 'Смены сохранены.', 'shifts' => $created]);
     }
     public function clear(Request $request) {
         $data = $request->validate(['cells' => 'required|array|min:1|max:500', 'cells.*' => 'required|array:employee_id,date', 'cells.*.employee_id' => 'required|integer|exists:employees,id', 'cells.*.date' => 'required|date_format:Y-m-d']);

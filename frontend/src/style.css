@@ -10,3 +10,21 @@
 .selection-bar{flex-wrap:wrap}.selection-info{flex-wrap:wrap;white-space:normal}.selection-actions{flex-wrap:wrap;max-width:100%}
 
 .period .select-mode{font-size:13px;color:#1c4ae5;border-radius:6px;padding:5px 8px}.period .select-mode[aria-pressed="true"]{background:#e8edfc}
+.notice{position:fixed;right:24px;bottom:24px;z-index:10;max-width:min(420px,calc(100vw - 48px));margin:0;box-shadow:0 4px 18px #10101220}
+
+/* Layer 10: centered shift hours and duration. */
+.shift{align-items:center;text-align:center;padding:4px;gap:0;font-weight:400}.shift-time{font-size:16px;line-height:24px;white-space:nowrap;max-width:100%}.shift-duration{font-size:12px;line-height:16px;color:#3e87ff;white-space:nowrap}.brand.shift{background:#e8f1ff}.grid-month .shift-time{font-size:10px;line-height:16px}.grid-month .shift-duration{font-size:10px;line-height:14px}
+
+.shift-time-precise{font-size:13px;letter-spacing:-.2px}.grid-month .shift-time-precise{font-size:9px;letter-spacing:-.3px}
+.shift,.template-apply{touch-action:none;cursor:grab}.drag-source{opacity:.4}.dragging-shift,.dragging-shift *{cursor:grabbing!important;user-select:none}.drag-ghost{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;will-change:transform;width:102px;height:64px;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:#e8f1ff;color:#101012;font-size:14px;line-height:22px;box-shadow:0 8px 22px #10101240}.drag-ghost small{color:#3e87ff;font-size:12px;line-height:16px}.drag-ghost.cornflower{background:#dce6ff}.drag-ghost.mint{background:#d6f3ec}.drag-ghost.lavender{background:#eadfff}.cell.drop-target{outline:2px solid #5b7dec;outline-offset:-2px;background:#e8edfc}.cell.drop-target.drop-occupied{outline-color:#d64d4d;background:#fbe5e5}
+.cell:disabled{opacity:1}
+/* Month-specific cells follow Figma Layer 12. */
+.grid-month .grid-row{grid-template-columns:220px repeat(var(--columns),64px)}
+.grid-month .day-label{padding:0;font-size:12px;line-height:16px}
+.grid-month .day-label button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;line-height:16px;width:100%;height:100%}
+.grid-month .month-weekday{color:#737378}.grid-month .month-day{color:#101012}
+.grid-month .shift-duration{font-size:16px;font-weight:600;line-height:24px;color:#3e87ff}
+.grid-month .shift-duration-precise{font-size:10px;line-height:14px;letter-spacing:-.25px}
+.grid-month .shift.brand{background:#5b7dec}.grid-month .shift.brand .shift-duration{color:#fff}
+.grid-month .shift.lavender{background:#e9deff}.grid-month .shift.lavender .shift-duration{color:#8040ff}
+@media(max-width:650px){.grid-month .grid-row{grid-template-columns:160px repeat(var(--columns),64px)}}
