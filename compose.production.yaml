@@ -1,0 +1,25 @@
+name: testcrm
+services:
+  app:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile
+      target: app
+    env_file: .env.production
+    volumes:
+      - testcrm-data:/var/www/data
+      - testcrm-storage:/var/www/html/storage
+    restart: unless-stopped
+  web:
+    build:
+      context: .
+      dockerfile: deploy/docker/Dockerfile
+      target: web
+    ports:
+      - "${TESTCRM_PORT:-8088}:80"
+    depends_on:
+      - app
+    restart: unless-stopped
+volumes:
+  testcrm-data:
+  testcrm-storage:

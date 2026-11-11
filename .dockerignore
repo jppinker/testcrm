@@ -1,0 +1,13 @@
+.git
+.env*
+**/.env*
+**/node_modules
+**/vendor
+**/dist
+backend/public/app
+backend/database/*.sqlite*
+backend/storage/logs/*
+backend/storage/framework/*
+backend/bootstrap/cache/*.php
+.playwright-cli
+output

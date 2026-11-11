@@ -32,3 +32,7 @@ Open http://localhost:5173. Laravel is at http://localhost:8000; Vite proxies `/
 Select one or more empty cells, then choose a template or enter custom hours and apply them. Click an existing shift to edit or delete it. The numbered controls on templates edit them; + creates a template. Changes are saved immediately. Save reloads the persisted schedule, and Publish records a snapshot of the visible period. Publishing does not send notifications or expose a separate public view. The seeder creates a sample schedule for the current week only on a fresh database and leaves existing data untouched. Only one shift per employee and date is supported; shifts must end on the same day.
 
 Run backend tests with `docker compose run --rm --entrypoint php backend artisan test`.
+
+## Deployment
+
+See [alwaysdata deployment instructions](docs/deployment.md). Build the same-origin Laravel-served frontend with `npm run build:laravel` in `frontend`.

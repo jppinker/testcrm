@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc -b && vite build",
+    "build:laravel": "vue-tsc -b && vite build --base=/app/ --outDir ../backend/public/app --emptyOutDir",
     "preview": "vite preview"
   },
   "dependencies": {
