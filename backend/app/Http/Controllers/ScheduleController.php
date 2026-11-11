@@ -38,4 +38,11 @@ class ScheduleController extends Controller
         });
         return response()->json(['message' => 'Смены сохранены.']);
     }
+    public function clear(Request $request) {
+        $data = $request->validate(['cells' => 'required|array|min:1|max:500', 'cells.*' => 'required|array:employee_id,date', 'cells.*.employee_id' => 'required|integer|exists:employees,id', 'cells.*.date' => 'required|date_format:Y-m-d']);
+        DB::transaction(function () use ($data) {
+            foreach ($data['cells'] as $cell) DB::table('shifts')->where('employee_id', $cell['employee_id'])->where('date', $cell['date'])->delete();
+        });
+        return response()->json(['message' => 'Смены удалены.']);
+    }
 }

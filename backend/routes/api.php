@@ -7,6 +7,7 @@ Route::get('/templates', fn () => response()->json(\Illuminate\Support\Facades\D
 Route::post('/templates', [ScheduleController::class, 'createTemplate']);
 Route::put('/templates/{id}', [ScheduleController::class, 'updateTemplate']);
 Route::delete('/templates/{id}', [ScheduleController::class, 'deleteTemplate']);
+Route::post('/shifts/clear', [ScheduleController::class, 'clear']);
 Route::post('/shifts/apply', [ScheduleController::class, 'apply']);
 Route::post('/shifts', [ScheduleController::class, 'saveShift']);
 Route::put('/shifts/{id}', [ScheduleController::class, 'saveShift']);

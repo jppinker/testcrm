@@ -46,4 +46,16 @@ class ScheduleApiTest extends TestCase {
   $this->postJson('/api/shifts/apply', $data + ['cells'=>[['employee_id'=>$employee,'date'=>'2026-11-12'], $cell]])->assertUnprocessable();
   $this->assertDatabaseCount('shifts', 1);
  }
+ public function test_clear_selected_shifts_only(): void {
+  $employee = DB::table('employees')->insertGetId(['name'=>'Анна', 'role'=>'агент']);
+  $data = ['name'=>'Утро','start_time'=>'09:00','end_time'=>'17:00','color'=>'mint'];
+  $a = ['employee_id'=>$employee,'date'=>'2026-11-11'];
+  $b = ['employee_id'=>$employee,'date'=>'2026-11-12'];
+  $this->postJson('/api/shifts', $a + $data)->assertCreated();
+  $this->postJson('/api/shifts', $b + $data)->assertCreated();
+  $this->postJson('/api/shifts/clear', ['cells'=>[$a]])->assertOk();
+  $this->assertDatabaseMissing('shifts', $a);
+  $this->assertDatabaseHas('shifts', $b);
+  $this->postJson('/api/shifts/clear', ['cells'=>[['employee_id'=>$employee,'date'=>'invalid']]])->assertUnprocessable();
+ }
 }
